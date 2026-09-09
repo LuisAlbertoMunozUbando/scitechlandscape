@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Science–Technology Landscape · Spark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main class="shell">
+  <aside class="sidebar">
+    <div class="eyebrow">SPARK · PAPER POSITIONING ENGINE</div>
+    <h1>Science–Technology Landscape</h1>
+    <p class="intro">Paste a paper abstract. The local LLM positions it against fundamental science, demonstrated technology maturity, and nearby Nobel reference points.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="analyze">Analyse</button>
+      <button class="tab" data-tab="nobel">Nobel Proximity</button>
+      <button class="tab" data-tab="papers">Papers</button>
+    </div>
+
+    <section id="tab-analyze" class="tab-panel active">
+      <label class="field-label" for="paperTitle">Paper title</label>
+      <input id="paperTitle" class="input" placeholder="Optional" />
+      <label class="field-label" for="abstract">Abstract</label>
+      <textarea id="abstract" rows="11" placeholder="Paste the abstract here..."></textarea>
+      <button id="analyzeBtn" class="primary">Analyse with Spark LLM</button>
+      <div id="analysisStatus" class="status">Checking Spark…</div>
+      <div class="model-row"><span>Model</span><strong id="modelName">checking…</strong></div>
+
+      <div id="paperResult" class="paper-result hidden">
+        <div class="result-area"><span>Detected area</span><strong id="resultArea"></strong></div>
+        <div class="result-scores">
+          <div><span>Fundamental science</span><strong id="resultScience"></strong></div>
+          <div><span>Tech maturity</span><strong id="resultTech"></strong></div>
+          <div><span>Tech potential</span><strong id="resultPotential"></strong></div>
+          <div><span>Confidence</span><strong id="resultConfidence"></strong></div>
+        </div>
+        <p id="resultRationale"></p>
+      </div>
+    </section>
+
+    <section id="tab-nobel" class="tab-panel">
+      <div class="proximity-head">
+        <div>
+          <h2>Nobel Proximity</h2>
+          <p class="small">Similarity is a reference aid, not a claim of Nobel-level importance.</p>
+        </div>
+      </div>
+      <label class="field-label" for="proximityMode">Rank by</label>
+      <select id="proximityMode" class="input">
+        <option value="hybrid">Hybrid: concept + map position</option>
+        <option value="conceptual">Conceptual affinity</option>
+        <option value="position">Position on map</option>
+      </select>
+      <div id="nobelProximityList" class="proximity-list"><span class="muted">Analyse a paper first.</span></div>
+    </section>
+
+    <section id="tab-papers" class="tab-panel">
+      <div class="section-row"><h2>Analysed papers</h2><button id="clearPapers" class="ghost danger">Clear</button></div>
+      <div id="paperList" class="paper-list"><span class="muted">No papers yet.</span></div>
+    </section>
+
+    <section class="reference-controls">
+      <div class="section-row"><h2>Reference Nobel areas</h2><span id="count" class="pill">0</span></div>
+      <label class="check"><input id="cat-Physics" type="checkbox" checked><span class="dot physics"></span>Physics</label>
+      <label class="check"><input id="cat-Chemistry" type="checkbox" checked><span class="dot chemistry"></span>Chemistry</label>
+      <label class="check"><input id="cat-Medicine" type="checkbox" checked><span class="dot medicine"></span>Medicine</label>
+      <div class="mini-actions"><button id="selectAll" class="ghost">Select all</button><button id="clearAll" class="ghost">Clear</button></div>
+      <div class="year-labels"><span id="startLabel">1926</span><span id="endLabel">2025</span></div>
+      <input id="startYear" type="range" min="1926" max="2025" value="1926" />
+      <input id="endYear" type="range" min="1926" max="2025" value="2025" />
+    </section>
+  </aside>
+
+  <section class="mainstage">
+    <header class="topbar">
+      <div><strong>Live map</strong><span class="muted"> · Nobel references + your papers</span></div>
+      <div class="topmeta"><span><b id="paperCount">0</b> papers</span><span id="sparkBadge" class="badge">Spark checking…</span></div>
+    </header>
+    <div class="chart-wrap">
+      <svg id="chart" viewBox="0 0 1100 720" aria-label="Science technology landscape"></svg>
+      <div class="legend-note">◇ Your paper &nbsp; ● Nobel reference &nbsp; · Double-click to reset view</div>
+    </div>
+  </section>
+</main>
+
+<div id="backdrop" class="backdrop hidden">
+  <article class="drawer">
+    <button id="closeDrawer" class="close">×</button>
+    <div id="drawerYear" class="eyebrow"></div>
+    <h2 id="drawerTitle"></h2>
+    <p id="drawerLaureates" class="drawer-people"></p>
+    <p id="drawerMotivation"></p>
+    <div class="drawer-scores">
+      <div><span>Science</span><strong id="scoreScience"></strong></div>
+      <div><span>Tech maturity</span><strong id="scoreTech"></strong></div>
+      <div><span>Potential / impact</span><strong id="scoreImpact"></strong></div>
+    </div>
+    <h3>Why here?</h3>
+    <p id="drawerExplanation"></p>
+    <div id="drawerTags" class="tags"></div>
+  </article>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
